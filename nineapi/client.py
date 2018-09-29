@@ -158,12 +158,12 @@ class Client(object):
         # self.generatedAppId = dict(parse_qsl(self.userData['noti']['chatBadgeReadStateParams']))['appId']
         return True
 
-    def get_group(self):
+    def get_all_groups(self):
         response = self._request(
             'GET',
             '/v2/group-list?entryTypes=animated,photo,video,article&locale=en_US'
         )
-        return response
+        return response['data']
 
     def get_posts(self, group=1, type_='hot', count=10,
                   entry_types=['animated', 'photo', 'video', 'album'],
