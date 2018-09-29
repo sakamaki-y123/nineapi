@@ -164,8 +164,10 @@ class Client(object):
             '/v2/group-list?entryTypes=animated,photo,video,article&locale=en_US'
         )
         groupList = list([Group(self, group) for group in response['data']['groups']])
-        with open('gropu.yaml', 'w') as outfile:
-            yaml.dump(groupList, outfile, default_flow_style=False)
+        yaml_data = yaml.dump(groupList, default_flow_style=False)
+        with open('group.yaml', 'w') as fp:
+            fp.write(yaml_data)
+            
         return groupList
 
     def get_posts(self, group=1, type_='hot', count=10,
@@ -200,8 +202,10 @@ class Client(object):
             args=args
         )
         postList = list([Post(self, post) for post in response['data']['posts']])
-        with open('post.yaml', 'w') as outfile:
-            yaml.dump(postList, outfile, default_flow_style=False)
+        yaml_data = yaml.dump(postList, default_flow_style=False)
+        with open('post.yaml', 'w') as fp:
+            fp.write(yaml_data)
+
         return postList
 
     @property
