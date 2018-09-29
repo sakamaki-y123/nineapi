@@ -200,7 +200,7 @@ class Client(object):
             json.dump(response, outfile)
         return list([Post(self, post) for post in response['data']['posts']])
 
-    def get_posts_by_tag(self, tag="kitten", type_='new', count=10,
+    def get_posts_by_tag(self, tag_="kitten", type_='new', count=10,
                   entry_types=['animated', 'photo', 'video', 'album'],
                   olderThan=None):
         """
@@ -216,7 +216,7 @@ class Client(object):
         :raises: :class:`.APIException`
         """
         args = dict(
-            tag=group,
+            tag= 'tag/' + tag_,
             type=type_,
             itemCount=count,
             entryTypes=','.join(entry_types),
