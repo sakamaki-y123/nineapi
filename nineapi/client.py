@@ -164,9 +164,8 @@ class Client(object):
             '/v2/group-list?entryTypes=animated,photo,video,article&locale=en_US'
         )
         groupList = list([Group(self, group) for group in response['data']['groups']])
-        yaml_data = yaml.dump(groupList, default_flow_style=False)
-        with open('group.yaml', 'w') as fp:
-            fp.write(yaml_data)
+        with open('group.yaml', 'w') as outfile:
+            outfile.write(yaml.safe_dump(groupList, default_flow_style=False))
             
         return groupList
 
@@ -202,9 +201,8 @@ class Client(object):
             args=args
         )
         postList = list([Post(self, post) for post in response['data']['posts']])
-        yaml_data = yaml.dump(postList, default_flow_style=False)
-        with open('post.yaml', 'w') as fp:
-            fp.write(yaml_data)
+        with open('post.yaml', 'w') as outfile:
+            outfile.write(yaml.safe_dump(postList, default_flow_style=False))
 
         return postList
 
