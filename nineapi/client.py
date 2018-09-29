@@ -200,40 +200,6 @@ class Client(object):
             json.dump(response, outfile)
         return list([Post(self, post) for post in response['data']['posts']])
 
-    def get_posts_by_tag(self, tag_="kitten", type_='new', count=10,
-                  entry_types=['animated', 'photo', 'video', 'album'],
-                  olderThan=None):
-        """
-        Fetch posts.
-
-        :param tag: Posts category (defaults to kitten)
-        :param type_: Posts type (defaults to 'new')
-        :param count: Count of posts.
-        :param entry_types: list of strings
-        :param olderThan: Last seen post (for pagination) - `str`,
-                          :class:`Post` or `None`
-        :returns: list of :class:`.Post`
-        :raises: :class:`.APIException`
-        """
-        args = dict(
-            tag= 'tag/' + tag_,
-            type=type_,
-            itemCount=count,
-            entryTypes=','.join(entry_types),
-            offset=10
-        )
-        if olderThan is not None:
-            if isinstance(olderThan, Post):
-                olderThan = olderThan.id
-            args['olderThan'] = olderThan
-        response = self._request(
-            'GET',
-            '/v2/post-list/tag/cat/type/new/itemCount/20/entryTypes/animated,video/offset/10'
-        )
-        with open('post.json', 'w') as outfile:
-            json.dump(response, outfile)
-        return list([Post(self, post) for post in response['data']['posts']])
-
     @property
     def is_authorized(self):
         """
