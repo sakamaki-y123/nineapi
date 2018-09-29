@@ -163,7 +163,7 @@ class Client(object):
             'GET',
             '/v2/group-list?entryTypes=animated,photo,video,article&locale=en_US'
         )
-        return response['data']
+        return list([Group(self, group) for group in response['data']['groups']])
 
     def get_posts(self, group=1, type_='hot', count=10,
                   entry_types=['animated', 'photo', 'video', 'album'],
@@ -204,6 +204,33 @@ class Client(object):
         Authorization status.
         """
         return self.userData is not None
+
+class Group(object):
+    def __init__(self, client, props):
+        self._client = client
+        self._props = props
+
+    @property
+    def name(self):
+        """
+        Group Name
+        """
+        return self._props['name']
+
+    @property
+    def id(self):
+        """
+        Group id
+        """
+        return self._props['id']
+
+    def __str__(self):
+        return '<Group id="{}" name="{}">'.format(
+            self.id,
+            self.name.encode('utf-8')
+        )
+
+    __repr__ = __str__
 
 
 class Post(object):
