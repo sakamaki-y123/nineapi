@@ -1,5 +1,5 @@
-from json import loads
 import json
+from json import loads
 import logging
 
 try:
