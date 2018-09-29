@@ -1,4 +1,4 @@
-import json
+import yaml
 from json import loads
 import logging
 
@@ -163,7 +163,10 @@ class Client(object):
             'GET',
             '/v2/group-list?entryTypes=animated,photo,video,article&locale=en_US'
         )
-        return list([Group(self, group) for group in response['data']['groups']])
+        groupList = list([Group(self, group) for group in response['data']['groups']])
+        with open('gropu.yaml', 'w') as outfile:
+            yaml.dump(groupList, outfile, default_flow_style=False)
+        return groupList
 
     def get_posts(self, group=1, type_='hot', count=10,
                   entry_types=['animated', 'photo', 'video', 'album'],
@@ -196,9 +199,10 @@ class Client(object):
             '/v2/post-list',
             args=args
         )
-        with open('post.json', 'w') as outfile:
-            json.dump(response, outfile)
-        return list([Post(self, post) for post in response['data']['posts']])
+        postList = list([Post(self, post) for post in response['data']['posts']])
+        with open('post.yaml', 'w') as outfile:
+            yaml.dump(postList, outfile, default_flow_style=False)
+        return postList
 
     @property
     def is_authorized(self):
@@ -279,6 +283,13 @@ class Post(object):
         Post type.
         """
         return self._props['type']
+
+    @property
+    def tags(self):
+        """
+        Tags
+        """
+        return self._props['tags']
 
     @property
     def props(self):
