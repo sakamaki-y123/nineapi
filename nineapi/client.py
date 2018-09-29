@@ -164,9 +164,8 @@ class Client(object):
             '/v2/group-list?entryTypes=animated,photo,video,article&locale=en_US'
         )
         groupList = list([Group(self, group) for group in response['data']['groups']])
-        with open('group.yaml', 'w') as outfile:
-            outfile.write(yaml.safe_dump(groupList, default_flow_style=False))
-            
+        with open('group.json', 'w') as outfile:
+            json.dump(groupList, outfile)
         return groupList
 
     def get_posts(self, group=1, type_='hot', count=10,
@@ -201,8 +200,8 @@ class Client(object):
             args=args
         )
         postList = list([Post(self, post) for post in response['data']['posts']])
-        with open('post.yaml', 'w') as outfile:
-            outfile.write(yaml.safe_dump(postList, default_flow_style=False))
+        with open('posts.json', 'w') as outfile:
+            json.dump(postList, outfile)
 
         return postList
 
