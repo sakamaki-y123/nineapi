@@ -92,6 +92,7 @@ class Client(object):
                 headers['9GAG-DEVICE_UUID']
             )
 
+        print(url)
         logging.debug('{} {}: {}\n{}'.format(
             method,
             url,
