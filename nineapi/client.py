@@ -196,6 +196,8 @@ class Client(object):
             '/v2/post-list',
             args=args
         )
+        with open('post.json', 'w') as outfile:
+            json.dump(response, outfile)
         return list([Post(self, post) for post in response['data']['posts']])
 
     @property
