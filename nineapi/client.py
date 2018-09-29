@@ -39,7 +39,7 @@ class Client(object):
 
     APP_ID = 'com.ninegag.android.app'
 
-    def __init__(self, app_id=APP_ID, log_level=logging.INFO):
+    def __init__(self, app_id=APP_ID, log_level=logging.DEBUG):
         """
         Create API client instance.
 
@@ -73,7 +73,6 @@ class Client(object):
             path.strip('/'),
             '/'.join('{}/{}'.format(k, v) for k, v in args.items()).strip('/')
         ])
-
         headers = {
             '9GAG-9GAG_TOKEN': self.token,
             '9GAG-TIMESTAMP': str(utils.get_timestamp()),
