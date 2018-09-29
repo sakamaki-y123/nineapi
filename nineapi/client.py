@@ -1,4 +1,3 @@
-import yaml
 from json import loads
 import logging
 
