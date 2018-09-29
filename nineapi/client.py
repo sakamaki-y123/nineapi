@@ -12,7 +12,7 @@ import requests
 from . import utils
 
 
-logger = logging.getLogger('ninegag')
+logger = logging.getLogger('__name__')
 
 
 class APIException(Exception):
