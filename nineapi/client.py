@@ -158,15 +158,37 @@ class Client(object):
         # self.generatedAppId = dict(parse_qsl(self.userData['noti']['chatBadgeReadStateParams']))['appId']
         return True
 
+    def write_groups_to_json(self,groupList):
+        groupInfoList = []
+        for group in groupList:
+            groupdata = {}
+            groupdata['id'] = post.id()
+            groupdata['name'] = post.title()
+            postInfoList.append(postdata)
+        with open('posts.json', 'w') as outfile:
+            json.dump(groupInfoList, outfile)
+
     def get_all_groups(self):
         response = self._request(
             'GET',
             '/v2/group-list?entryTypes=animated,photo,video,article&locale=en_US'
         )
         groupList = list([Group(self, group) for group in response['data']['groups']])
-        with open('group.json', 'w') as outfile:
-            json.dump(groupList, outfile)
         return groupList
+
+    def write_posts_to_json(self,postList):
+        postInfoList = []
+        for post in postList:
+            postdata = {}
+            postdata['id'] = post.id()
+            postdata['title'] = post.title()
+            postdata['url'] = post.url()
+            postdata['type'] = post.type()
+            postdata['tags'] = post.tags()
+            postdata['media_url'] = post.get_media_url()
+            postInfoList.append(postdata)
+        with open('posts.json', 'w') as outfile:
+            json.dump(postInfoList, outfile)
 
     def get_posts(self, group=1, type_='hot', count=10,
                   entry_types=['animated', 'photo', 'video', 'album'],
@@ -200,9 +222,6 @@ class Client(object):
             args=args
         )
         postList = list([Post(self, post) for post in response['data']['posts']])
-        with open('posts.json', 'w') as outfile:
-            json.dump(postList, outfile)
-
         return postList
 
     @property
