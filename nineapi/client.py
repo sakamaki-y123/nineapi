@@ -222,6 +222,7 @@ class Client(object):
             args=args
         )
         postList = list([Post(self, post) for post in response['data']['posts']])
+        write_posts_to_json(postList)
         return postList
 
     @property
