@@ -209,6 +209,18 @@ class Client(object):
         )
         postList = list([Post(self, post) for post in response['data']['posts']])
         return postList
+    
+    def write_posts_to_json(self,post_list):
+        posts_data = {}
+        for post in post_list:
+            id = post.id
+            posts_data[id]['title'] = post.title
+            posts_data[id]['url'] = post.url
+            posts_data[id]['type'] = post.type
+            posts_data[id]['tags'] = post.tags
+            posts_data[id]['media_url'] = post.get_media_url()
+        with open('posts.json', 'w') as outfile:
+            json.dump(posts_data, outfile)
 
     @property
     def is_authorized(self):
@@ -235,6 +247,13 @@ class Group(object):
         Group id
         """
         return self._props['id']
+
+    def write_to_json(self):
+        groupdata = {}
+        groupdata['id'] = self.id
+        groupdata['name'] = self.name
+        with open('group_' + self.id +'.json', 'w') as outfile:
+            json.dump(postdata, outfile)
 
     def __str__(self):
         return '<Group id="{}" name="{}">'.format(
