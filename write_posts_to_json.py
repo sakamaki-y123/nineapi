@@ -24,9 +24,9 @@ if __name__ == '__main__':
         description='write 9gag post info to json',
         add_help=True,
     )
-    parser.add_argument('-g', '--Group', default=1, type=int )
-    parser.add_argument('-t', '--Type', default="hot")
-    parser.add_argument('-c', '--Count', default=10, type=int)
+    parser.add_argument('-g', '--group', default=1, type=int )
+    parser.add_argument('-t', '--type', default="hot")
+    parser.add_argument('-c', '--count', default=10, type=int)
     args = parser.parse_args()
 
     sys.exit(main(args))
