@@ -175,6 +175,15 @@ class Client(object):
         )
         groupList = list([Group(self, group) for group in response['data']['groups']])
         return groupList
+    
+    def write_groups_to_json(self,group_list):
+        group_data = {}
+        for group in group_list:
+            id = group.id
+            group_data[id] = {}
+            group_data[id]['name'] = group.name
+        with open('groups.json', 'w') as outfile:
+            json.dump(group_data, outfile)
 
     def get_posts(self, group=1, type_='hot', count=10,
                   entry_types=['animated', 'photo', 'video', 'album'],
