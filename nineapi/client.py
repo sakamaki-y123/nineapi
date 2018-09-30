@@ -177,19 +177,17 @@ class Client(object):
         return groupList
 
     def write_posts_to_json(self,postList):
-        postInfoList = []
+        postInfo = {}
         for post in postList:
-            postdata = {}
-            postdata['id'] = post.id()
-            postdata['title'] = post.title()
-            postdata['url'] = post.url()
-            postdata['type'] = post.type()
-            postdata['tags'] = post.tags()
-            postdata['media_url'] = post.get_media_url()
-            print(postdata)
-            postInfoList.append(postdata)
+            id = post.id()
+            postInfo[id] = {}
+            postdata[id]['title'] = post.title()
+            postdata[id]['url'] = post.url()
+            postdata[id]['type'] = post.type()
+            postdata[id]['tags'] = post.tags()
+            postdata[id]['media_url'] = post.get_media_url()
         with open('posts.json', 'w') as outfile:
-            json.dump(postInfoList, outfile)
+            json.dump(postInfo, outfile)
 
     def get_posts(self, group=1, type_='hot', count=10,
                   entry_types=['animated', 'photo', 'video', 'album'],
