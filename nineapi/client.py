@@ -186,6 +186,7 @@ class Client(object):
             postdata[id]['type'] = post.type()
             postdata[id]['tags'] = post.tags()
             postdata[id]['media_url'] = post.get_media_url()
+        print(json.dump(postInfo, outfile))
         with open('posts.json', 'w') as outfile:
             json.dump(postInfo, outfile)
 
