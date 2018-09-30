@@ -361,12 +361,12 @@ class Post(object):
 
     def write_to_json(self):
         postdata = {}
-        postdata['id'] = id()
-        postdata['title'] = title()
-        postdata['url'] = url()
-        postdata['type'] = type()
-        postdata['tags'] = tags()
-        postdata['media_url'] = get_media_url()
+        postdata['id'] = id(self)
+        postdata['title'] = title(self)
+        postdata['url'] = url(self)
+        postdata['type'] = type(self)
+        postdata['tags'] = tags(self)
+        postdata['media_url'] = get_media_url(self)
         with open('post_' + id() +'.json', 'w') as outfile:
             json.dump(postdata, outfile)
 
