@@ -214,6 +214,7 @@ class Client(object):
         posts_data = {}
         for post in post_list:
             id = post.id
+            posts_data[id] = {}
             posts_data[id]['title'] = post.title
             posts_data[id]['url'] = post.url
             posts_data[id]['type'] = post.type
