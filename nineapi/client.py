@@ -367,7 +367,7 @@ class Post(object):
         postdata['type'] = self.type
         postdata['tags'] = self.tags
         postdata['media_url'] = self.get_media_url()
-        with open('post_' + id() +'.json', 'w') as outfile:
+        with open('post_' + self.id +'.json', 'w') as outfile:
             json.dump(postdata, outfile)
 
     def __str__(self):
