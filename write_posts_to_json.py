@@ -7,9 +7,9 @@ client = Client()
 client.username = os.environ['NINEGAG_USERNAME']
 client.password = os.environ['NINEGAG_PASSWORD']
 
-group = os.environ.get('TARGET_GROUP', 1)
+group = int(os.environ.get('TARGET_GROUP', 1))
 type = os.environ.get('TARGET_TYPE', 'hot')
-count = os.environ.get('TARGET_COUNT', 10)
+count = int(os.environ.get('TARGET_COUNT', 10))
 
 try:
     client.log_in(client.username, client.password)
