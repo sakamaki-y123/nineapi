@@ -1,16 +1,14 @@
 import json
-from json import loads
 import logging
+import requests
+from json import loads
+from xml.sax.saxutils import unescape
+from . import utils
 
 try:
     from urlparse import parse_qsl
 except ImportError:
     from urllib.parse import parse_qsl
-
-import requests
-
-from . import utils
-
 
 logger = logging.getLogger('__name__')
 
@@ -224,7 +222,7 @@ class Client(object):
         for post in post_list:
             id = post.id
             posts_data[id] = {}
-            posts_data[id]['title'] = post.title
+            posts_data[id]['title'] = unescape(post.title)
             posts_data[id]['url'] = post.url
             posts_data[id]['type'] = post.type
             posts_data[id]['tags'] = post.tags
