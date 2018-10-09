@@ -222,7 +222,8 @@ class Client(object):
         for post in post_list:
             id = post.id
             posts_data[id] = {}
-            posts_data[id]['title'] = html.unescape(post.title)
+            tempTitle = html.unescape(post.title)
+            posts_data[id]['title'] = tempTitle.replace('&#039;m', '\'')
             posts_data[id]['url'] = post.url
             posts_data[id]['type'] = post.type
             posts_data[id]['tags'] = post.tags
