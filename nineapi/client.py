@@ -285,6 +285,7 @@ class Post(object):
 
         Photo = 'Photo'
         Animated = 'Animated'
+        Video = 'Video'
 
     def __init__(self, client, props):
         self._client = client
@@ -336,11 +337,12 @@ class Post(object):
         """
         Returns image URL for Photo posts and .WEBM URL for Animated posts.
         """
-        print(self.props)
         if self.type == Post.Types.Photo:
             return self.props['images']['image700']['url']
         elif self.type == Post.Types.Animated:
             return self.props['images']['image460sv']['url']
+        elif self.type == Post.Types.Video:
+            return self.props['images']['image700']['url']
         raise NotImplementedError(
             'Post type not implemented: {}, '
             'you can report it here: '
