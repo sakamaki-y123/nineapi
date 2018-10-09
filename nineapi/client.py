@@ -336,6 +336,7 @@ class Post(object):
         """
         Returns image URL for Photo posts and .WEBM URL for Animated posts.
         """
+        print(self.props)
         if self.type == Post.Types.Photo:
             return self.props['images']['image700']['url']
         elif self.type == Post.Types.Animated:
