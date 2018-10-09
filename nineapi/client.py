@@ -341,6 +341,7 @@ class Post(object):
         elif self.type == Post.Types.Animated:
             return self.props['images']['image460sv']['url']
         raise NotImplementedError(
+            print(self.props)
             'Post type not implemented: {}, '
             'you can report it here: '
             'https://github.com/and3rson/nineapi/issues'.format(
