@@ -1,16 +1,19 @@
 import json
-import logging
-import requests
 import html
 from json import loads
-from . import utils
+import logging
 
 try:
     from urlparse import parse_qsl
 except ImportError:
     from urllib.parse import parse_qsl
 
-logger = logging.getLogger('__name__')
+import requests
+
+from . import utils
+
+
+logger = logging.getLogger('ninegag')
 
 
 class APIException(Exception):
@@ -71,6 +74,7 @@ class Client(object):
             path.strip('/'),
             '/'.join('{}/{}'.format(k, v) for k, v in args.items()).strip('/')
         ])
+
         headers = {
             '9GAG-9GAG_TOKEN': self.token,
             '9GAG-TIMESTAMP': str(utils.get_timestamp()),
@@ -80,8 +84,7 @@ class Client(object):
             'X-Device-UUID': self.device_uuid,
             '9GAG-DEVICE_TYPE': 'android',
             '9GAG-BUCKET_NAME': 'MAIN_RELEASE',
-            'X-Package-ID': 'com.ninegag.android.app'
-        }
+            }
 
         if sign:
             headers['9GAG-REQUEST-SIGNATURE'] = utils.sign_request(
@@ -185,7 +188,7 @@ class Client(object):
 
     def get_posts(self, group=1, type_='hot', count=10,
                   entry_types=['animated', 'photo', 'video', 'album'],
-                  olderThan=None):
+                  olderThan=None, **kwargs):
         """
         Fetch posts.
 
@@ -203,7 +206,8 @@ class Client(object):
             type=type_,
             itemCount=count,
             entryTypes=','.join(entry_types),
-            offset=10
+            offset=10,
+            **kwargs
         )
         if olderThan is not None:
             if isinstance(olderThan, Post):
@@ -214,8 +218,7 @@ class Client(object):
             '/v2/post-list',
             args=args
         )
-        postList = list([Post(self, post) for post in response['data']['posts']])
-        return postList
+        return list([Post(self, post) for post in response['data']['posts']])
     
     def write_posts_to_json(self,post_list):
         posts_data = {}
@@ -230,6 +233,36 @@ class Client(object):
             posts_data[id]['media_url'] = post.get_media_url()
         with open('posts.json', 'w') as outfile:
             json.dump(posts_data, outfile)
+
+    def search_posts_by_tag(self, query, offset=0, count=10,
+                            entry_types=['animated', 'photo', 'video', 'album'],
+                            sort='asc', **kwargs):
+        """
+        Fetch posts that match specific tag.
+
+        :param query: Posts tag
+        :param offset: Offset to start from.
+        :param count: Count of posts.
+        :param entry_types: list of strings
+        :param sort: sorting order ("asc" or "desc") - does not seem to work
+        :returns: list of :class:`.Post`
+        :raises: :class:`.APIException`
+        """
+        args = dict(
+            query=query,
+            fromIndex=offset,
+            itemCount=count,
+            entryTypes=','.join(entry_types),
+            offset=10,
+            sort=sort,
+            **kwargs
+        )
+        response = self._request(
+            'GET',
+            '/v2/tag-search',
+            args=args
+        )
+        return list([Post(self, post) for post in response['data']['posts']])
 
     @property
     def is_authorized(self):
