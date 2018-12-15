@@ -12,7 +12,8 @@ import requests
 
 from . import utils
 
-logger = logging.getLogger('__name__')
+
+logger = logging.getLogger('ninegag')
 
 
 class APIException(Exception):
@@ -510,3 +511,4 @@ class Comment(object):
         )
 
     __repr__ = __str__
+
