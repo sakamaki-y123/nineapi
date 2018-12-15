@@ -219,18 +219,31 @@ class Client(object):
             args=args
         )
         return list([Post(self, post) for post in response['data']['posts']])
-    
+
+    def decode_text(self,text):
+        # #039 u2018 u2019 -> '
+        # u201c u201d -> "
+        unescape_text = html.unescape(text)
+        decode_text = unescape_text.replace('&#039;', '\'').replace(u'\u201c', '"').replace(u'\u201d', '"').replace(u"\u2018", "\'").replace(u"\u2019", "\'")
+        return decode_text
+
     def write_posts_to_json(self,post_list):
         posts_data = {}
         for post in post_list:
             id = post.id
             posts_data[id] = {}
-            tempTitle = html.unescape(post.title)
-            posts_data[id]['title'] = tempTitle.replace('&#039;m', '\'')
+            posts_data[id]['title'] = self.decode_text(post.title)
             posts_data[id]['url'] = post.url
             posts_data[id]['type'] = post.type
             posts_data[id]['tags'] = post.tags
             posts_data[id]['media_url'] = post.get_media_url()
+
+            comments = []
+            for post_commnet in post.get_top_comments():
+                comment = self.decode_text(post_commnet.text)
+                if( not comment.startswith("http")):
+                    comments.append(comment)
+            posts_data[id]['comments'] = comments
         with open('posts.json', 'w') as outfile:
             json.dump(posts_data, outfile)
 
