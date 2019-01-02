@@ -388,7 +388,11 @@ class Post(object):
         elif self.type == Post.Types.Animated:
             return self.props['images']['image460sv']['url']
         elif self.type == Post.Types.Video:
-            return self.props['images']['image700']['url']
+            if "video" in self.props :
+                if self.props["video"]["source"] == "YouTube":
+                    return ""
+            else :
+                return self.props['images']['image700']['url']
         raise NotImplementedError(
             'Post type not implemented: {}, '
             'you can report it here: '
